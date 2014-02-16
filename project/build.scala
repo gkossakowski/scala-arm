@@ -78,7 +78,10 @@ object ArmDef extends Build {
   )
 
   def addContinuations = libraryDependencies <<= (scalaVersion, libraryDependencies) apply { (v, d) =>
-    d :+ compilerPlugin("org.scala-lang.plugins" % "continuations" % v)
+    if (v startsWith "2.11")
+      d :+ compilerPlugin("org.scala-lang.plugins" %% "scala-continuations-plugin" % v)
+    else
+      d :+ compilerPlugin("org.scala-lang.plugins" % "continuations" % v)
   }
 
   def dependencies = Seq(
